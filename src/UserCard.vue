@@ -53,7 +53,7 @@ const emit = defineEmits<{
   /**
    * Emitted when the user is selected.
    *
-   *
+   * @param  - Identifier of the selected user.
    */
   select: [userId: string];
 
