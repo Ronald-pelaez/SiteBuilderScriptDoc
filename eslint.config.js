@@ -28,6 +28,9 @@ export default [
         },
         rules: {
             "tsdoc/syntax": "error",
+            "jsdoc/require-asterisk-prefix": "error",
+            "jsdoc/require-param": "error",
+            "jsdoc/require-param-description": "error",
             "jsdoc/require-jsdoc": ["error", {
                 require: {
                     FunctionDeclaration: true,
@@ -45,7 +48,18 @@ export default [
                 ]
             }],
             "jsdoc/require-description": ["error", {
-                contexts: ["any"]
+                contexts: [
+                    "TSInterfaceDeclaration",
+                    "TSTypeAliasDeclaration",
+                    "VariableDeclaration:has(CallExpression[callee.name='defineProps'])",
+                    "VariableDeclaration:has(CallExpression[callee.name='defineEmits'])",
+                    "VariableDeclaration:has(CallExpression[callee.name='computed'])",
+                    "FunctionDeclaration",
+                    "MethodDefinition",
+                    "ClassDeclaration",
+                    "ArrowFunctionExpression",
+                    "FunctionExpression"
+                ]
             }],
             "jsdoc/match-description": ["error", {
                 matchDescription: "^[A-Z][a-zA-Z0-9,.'\"\\- \\(\\)\\n\\r]*$"
