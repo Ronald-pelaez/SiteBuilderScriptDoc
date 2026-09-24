@@ -51,10 +51,9 @@ const props = defineProps<{
  */
 const emit = defineEmits<{
   /**
-   * Emitted when the user is selected.
    *
    *
-   *
+   * @param userId - Identifier of the selected user.
    */
   select: [userId: string];
 
