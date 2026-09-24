@@ -27,8 +27,13 @@ interface User {
  */
 type UserStatus = 'active' | 'inactive' | 'pending';
 
-
-
+/**
+ *
+ *
+ *
+ *
+ * Defines the data received by the component.
+ */
 const props = defineProps<{
   /**
    * User information.
