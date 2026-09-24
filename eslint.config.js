@@ -1,0 +1,58 @@
+import jsdoc from 'eslint-plugin-jsdoc';
+import tsdocPlugin from 'eslint-plugin-tsdoc';
+import vueParser from 'vue-eslint-parser';
+import tsParser from '@typescript-eslint/parser';
+
+const commonSettings = {
+    mode: "typescript",
+    ignorePrivate: true,
+    ignoreInternal: true,
+    ignoreParsingErrors: true
+};
+
+export default [
+    {
+        files: ["**/*.js", "**/*.ts", "**/*.vue"],
+        languageOptions: {
+            parser: vueParser,
+            parserOptions: {
+                parser: tsParser,
+                sourceType: "module",
+                ecmaVersion: 2022,
+                extraFileExtensions: [".vue"]
+            }
+        },
+        plugins: {
+            jsdoc,
+            tsdoc: tsdocPlugin
+        },
+        rules: {
+            "tsdoc/syntax": "error",
+            "jsdoc/require-jsdoc": ["error", {
+                require: {
+                    FunctionDeclaration: true,
+                    MethodDefinition: true,
+                    ClassDeclaration: true,
+                    ArrowFunctionExpression: true,
+                    FunctionExpression: true
+                },
+                contexts: [
+                    "TSInterfaceDeclaration",
+                    "TSTypeAliasDeclaration",
+                    "VariableDeclaration:has(CallExpression[callee.name='defineProps'])",
+                    "VariableDeclaration:has(CallExpression[callee.name='defineEmits'])",
+                    "VariableDeclaration:has(CallExpression[callee.name='computed'])"
+                ]
+            }],
+            "jsdoc/require-description": ["error", {
+                contexts: ["any"]
+            }],
+            "jsdoc/match-description": ["error", {
+                matchDescription: "^[A-Z][a-zA-Z0-9,.'\"\\- \\(\\)\\n\\r]*$"
+            }]
+        },
+        settings: {
+            jsdoc: commonSettings
+        }
+    }
+];
