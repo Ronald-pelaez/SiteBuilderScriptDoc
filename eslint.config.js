@@ -29,8 +29,19 @@ export default [
         rules: {
             "tsdoc/syntax": "error",
             "jsdoc/require-asterisk-prefix": "error",
-            "jsdoc/require-param": "error",
+
+            // 1. Validaciones estrictas de parámetros
+            "jsdoc/require-param": ["error", {
+                contexts: [
+                    "FunctionDeclaration",
+                    "MethodDefinition",
+                    "ArrowFunctionExpression",
+                    "FunctionExpression"
+                ]
+            }],
+            "jsdoc/check-param-names": "error",
             "jsdoc/require-param-description": "error",
+
             "jsdoc/require-jsdoc": ["error", {
                 require: {
                     FunctionDeclaration: true,
@@ -47,7 +58,10 @@ export default [
                     "VariableDeclaration:has(CallExpression[callee.name='computed'])"
                 ]
             }],
+
+            // 2. Descripción obligatoria sin exenciones
             "jsdoc/require-description": ["error", {
+                exemptedBy: [],
                 contexts: [
                     "TSInterfaceDeclaration",
                     "TSTypeAliasDeclaration",
@@ -61,6 +75,7 @@ export default [
                     "FunctionExpression"
                 ]
             }],
+
             "jsdoc/match-description": ["error", {
                 matchDescription: "^[A-Z][a-zA-Z0-9,.'\"\\- \\(\\)\\n\\r]*$"
             }]
