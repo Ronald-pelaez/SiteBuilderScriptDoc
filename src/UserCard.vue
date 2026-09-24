@@ -61,6 +61,7 @@ const emit = defineEmits<{
    * Emitted when the user status changes.
    *
    *
+   *
    */
   statusChange: [status: UserStatus];
 }>();
