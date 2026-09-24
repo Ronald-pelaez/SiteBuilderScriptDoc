@@ -7,7 +7,7 @@ const commonSettings = {
     mode: "typescript",
     ignorePrivate: true,
     ignoreInternal: true,
-    ignoreParsingErrors: true
+
 };
 
 export default [
@@ -40,7 +40,8 @@ export default [
                 ]
             }],
             "jsdoc/check-param-names": ["error", {
-                checkDestructured: false
+                checkDestructured: false,
+                enableFixer: false
             }],
             "jsdoc/require-param-description": "error",
 
