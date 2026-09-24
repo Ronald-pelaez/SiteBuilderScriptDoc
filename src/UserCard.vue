@@ -79,6 +79,7 @@ const displayName = computed(() => {
  *
  * Emits the user selection event.
  *
+ *
  * @param userId - Identifier of the selected user.
  * @returns void.
  */
