@@ -28,9 +28,7 @@ interface User {
 type UserStatus = 'active' | 'inactive' | 'pending';
 
 /**
- *
- *
- *
+ * User card component properties.
  *
  * Defines the data received by the component.
  */
@@ -48,7 +46,7 @@ const props = defineProps<{
 
 /**
  * Component events.
- *
+
  * Defines the events emitted by the component.
  */
 const emit = defineEmits<{
