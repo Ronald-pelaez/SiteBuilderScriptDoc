@@ -39,7 +39,9 @@ export default [
                     "FunctionExpression"
                 ]
             }],
-            "jsdoc/check-param-names": "error",
+            "jsdoc/check-param-names": ["error", {
+                checkDestructured: false
+            }],
             "jsdoc/require-param-description": "error",
 
             "jsdoc/require-jsdoc": ["error", {
