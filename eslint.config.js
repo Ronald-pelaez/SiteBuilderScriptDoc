@@ -7,7 +7,6 @@ const commonSettings = {
     mode: "typescript",
     ignorePrivate: true,
     ignoreInternal: true,
-
 };
 
 export default [
@@ -36,14 +35,33 @@ export default [
                     "FunctionDeclaration",
                     "MethodDefinition",
                     "ArrowFunctionExpression",
-                    "FunctionExpression"
+                    "FunctionExpression",
+                    "TSPropertySignature",
+                    "TSMethodSignature"
                 ]
             }],
             "jsdoc/check-param-names": ["error", {
                 checkDestructured: false,
-                enableFixer: false
+                enableFixer: false,
+                contexts: [
+                    "FunctionDeclaration",
+                    "MethodDefinition",
+                    "ArrowFunctionExpression",
+                    "FunctionExpression",
+                    "TSPropertySignature",
+                    "TSMethodSignature"
+                ]
             }],
-            "jsdoc/require-param-description": "error",
+            "jsdoc/require-param-description": ["error", {
+                contexts: [
+                    "FunctionDeclaration",
+                    "MethodDefinition",
+                    "ArrowFunctionExpression",
+                    "FunctionExpression",
+                    "TSPropertySignature",
+                    "TSMethodSignature"
+                ]
+            }],
 
             "jsdoc/require-jsdoc": ["error", {
                 require: {
