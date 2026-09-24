@@ -47,7 +47,7 @@ const props = defineProps<{
 /**
  * Component events.
  *
- *
+ * Defines the events emitted by the component.
  */
 const emit = defineEmits<{
   /**
