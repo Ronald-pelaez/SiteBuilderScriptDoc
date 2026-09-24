@@ -1,0 +1,12 @@
+{
+  "name": "script-doc-sitebuilder",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "@typescript-eslint/parser": "^8.7.0",
+    "eslint": "^10.11.0"
+  }
+}
