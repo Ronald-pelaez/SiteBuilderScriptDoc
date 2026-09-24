@@ -11,6 +11,9 @@ const commonSettings = {
 
 export default [
     {
+        ignores: ["eslint.config.js"]
+    },
+    {
         files: ["**/*.js", "**/*.ts", "**/*.vue"],
         languageOptions: {
             parser: vueParser,
@@ -42,15 +45,7 @@ export default [
             }],
             "jsdoc/check-param-names": ["error", {
                 checkDestructured: false,
-                enableFixer: false,
-                contexts: [
-                    "FunctionDeclaration",
-                    "MethodDefinition",
-                    "ArrowFunctionExpression",
-                    "FunctionExpression",
-                    "TSPropertySignature",
-                    "TSMethodSignature"
-                ]
+                enableFixer: false
             }],
             "jsdoc/require-param-description": ["error", {
                 contexts: [
