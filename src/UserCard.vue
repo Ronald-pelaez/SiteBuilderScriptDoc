@@ -52,15 +52,15 @@ const props = defineProps<{
 const emit = defineEmits<{
   /**
    * Emitted when the user is selected.
-
-   * @param  - Identifier of the selected user.
+   *
+   * @param userId - Identifier of the selected user.
    */
   select: [userId: string];
 
   /**
    * Emitted when the user status changes.
    *
-   * @param status - New user status.
+   * @param test - New user status.
    */
   statusChange: [status: UserStatus];
 }>();
