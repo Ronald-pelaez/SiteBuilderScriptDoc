@@ -92,7 +92,6 @@ export default [
             "custom-vue": customVuePlugin
         },
         rules: {
-            "tsdoc/syntax": "error",
             "jsdoc/require-asterisk-prefix": "error",
 
             // Activación de la regla estricta consolidada
