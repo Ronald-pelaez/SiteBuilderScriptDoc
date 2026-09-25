@@ -113,6 +113,15 @@ export default [
                     "TSMethodSignature"
                 ]
             }],
+            "jsdoc/require-param-type": ["error", {
+                contexts: [
+                    "FunctionDeclaration",
+                    "MethodDefinition",
+                    "ArrowFunctionExpression",
+                    "FunctionExpression",
+                    "TSMethodSignature"
+                ]
+            }],
             "jsdoc/check-param-names": ["error", {
                 checkDestructured: false,
                 enableFixer: false
