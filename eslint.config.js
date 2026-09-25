@@ -61,11 +61,20 @@ const customVuePlugin = {
                                 elements.forEach(el => {
                                     if (el.type === "TSNamedTupleMember" && el.label) {
                                         const expectedName = el.label.name;
-                                        const paramRegex = new RegExp(`@param\\s+\\{[^}]+\\}\\s+${expectedName}\\b`);
+
+                                        // 1. Extraemos el tipo real del código
+                                        const rawType = sourceCode.getText(el.elementType);
+
+                                        // 2. Escapamos caracteres especiales
+                                        const escapedType = rawType.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+
+                                        // 3. Validamos que coincida el tipo exacto y el nombre de la variable
+                                        const paramRegex = new RegExp(`@param\\s+\\{${escapedType}\\}\\s+${expectedName}\\b`);
+
                                         if (!paramRegex.test(jsdoc.value)) {
                                             context.report({
                                                 node,
-                                                message: `El parámetro '${expectedName}' de la tupla no coincide o falta en el @param.`
+                                                message: `El parámetro '${expectedName}' o su tipo '{${rawType}}' no coinciden en el @param.`
                                             });
                                         }
                                     }
