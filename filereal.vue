@@ -76,7 +76,7 @@ const onUpdateUrl = (item: { [key: string]: any }): void => {
 /**
  * Updates the image URL of a specific item and notifies the parent component.
  * @description Updates the image URL of a specific item and notifies the parent component.
- * @param {string} url - The new image URL to be assigned to the item.
+ * @param  url - The new image URL to be assigned to the item.
  * @param {Object} item - The sports card object whose URL is being updated.
  * @returns {void}
  */
