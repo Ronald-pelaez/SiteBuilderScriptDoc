@@ -9,6 +9,54 @@ const commonSettings = {
     ignoreInternal: true,
 };
 
+// 1. Regla personalizada local para analizar tuplas en defineEmits
+const customVuePlugin = {
+    rules: {
+        "check-emit-tuple-params": {
+            meta: { type: "problem" },
+            create(context) {
+                return {
+                    "CallExpression[callee.name='defineEmits'] TSPropertySignature"(node) {
+                        if (node.typeAnnotation?.typeAnnotation?.type === "TSTupleType") {
+                            const sourceCode = context.sourceCode || context.getSourceCode();
+                            const comments = sourceCode.getCommentsBefore(node);
+                            const jsdoc = comments.find(c => c.type === "Block" && c.value.startsWith("*"));
+
+                            if (jsdoc) {
+                                const elements = node.typeAnnotation.typeAnnotation.elementTypes;
+                                const hasAnyParam = jsdoc.value.includes("@param");
+
+                                // Si la tupla tiene parámetros, obliga a usar @param
+                                if (elements.length > 0 && !hasAnyParam) {
+                                    context.report({
+                                        node,
+                                        message: "Falta la etiqueta @param en la documentación del emit."
+                                    });
+                                    return;
+                                }
+
+                                // Valida que el nombre en el JSDoc coincida exactamente con el de la tupla
+                                elements.forEach(el => {
+                                    if (el.type === "TSNamedTupleMember" && el.label) {
+                                        const expectedName = el.label.name;
+                                        const paramRegex = new RegExp(`@param\\s+${expectedName}\\b`);
+                                        if (!paramRegex.test(jsdoc.value)) {
+                                            context.report({
+                                                node,
+                                                message: `El parámetro '${expectedName}' de la tupla no coincide o falta en el @param.`
+                                            });
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                    }
+                };
+            }
+        }
+    }
+};
+
 export default [
     {
         ignores: ["eslint.config.js"]
@@ -26,20 +74,22 @@ export default [
         },
         plugins: {
             jsdoc,
-            tsdoc: tsdocPlugin
+            tsdoc: tsdocPlugin,
+            "custom-vue": customVuePlugin // 2. Registramos el plugin local
         },
         rules: {
             "tsdoc/syntax": "error",
             "jsdoc/require-asterisk-prefix": "error",
 
-            // 1. Validaciones estrictas de parámetros
+            // 3. Activamos la regla personalizada
+            "custom-vue/check-emit-tuple-params": "error",
+
             "jsdoc/require-param": ["error", {
                 contexts: [
                     "FunctionDeclaration",
                     "MethodDefinition",
                     "ArrowFunctionExpression",
                     "FunctionExpression",
-                    "TSPropertySignature",
                     "TSMethodSignature"
                 ]
             }],
@@ -53,11 +103,11 @@ export default [
                     "MethodDefinition",
                     "ArrowFunctionExpression",
                     "FunctionExpression",
-                    "TSPropertySignature",
                     "TSMethodSignature"
                 ]
             }],
 
+            // Se agrega el contexto TSPropertySignature dentro de defineEmits para obligar que exista el bloque JSDoc
             "jsdoc/require-jsdoc": ["error", {
                 require: {
                     FunctionDeclaration: true,
@@ -71,11 +121,11 @@ export default [
                     "TSTypeAliasDeclaration",
                     "VariableDeclaration:has(CallExpression[callee.name='defineProps'])",
                     "VariableDeclaration:has(CallExpression[callee.name='defineEmits'])",
+                    "CallExpression[callee.name='defineEmits'] TSPropertySignature",
                     "VariableDeclaration:has(CallExpression[callee.name='computed'])"
                 ]
             }],
 
-            // 2. Descripción obligatoria sin exenciones
             "jsdoc/require-description": ["error", {
                 exemptedBy: [],
                 contexts: [
@@ -83,6 +133,7 @@ export default [
                     "TSTypeAliasDeclaration",
                     "VariableDeclaration:has(CallExpression[callee.name='defineProps'])",
                     "VariableDeclaration:has(CallExpression[callee.name='defineEmits'])",
+                    "CallExpression[callee.name='defineEmits'] TSPropertySignature",
                     "VariableDeclaration:has(CallExpression[callee.name='computed'])",
                     "FunctionDeclaration",
                     "MethodDefinition",
