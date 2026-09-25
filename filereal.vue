@@ -2,7 +2,7 @@
 /**
  * SportBook Item Row Component
  *
- * This component represents a single sport entry within a list or grid. It provides
+ * @description component represents a single sport entry within a list or grid. It provides
  * specific actions for each item, such as deleting the entry, updating its associated
  * image URL via a file uploader, and providing a handle for drag-and-drop reordering.
  *
