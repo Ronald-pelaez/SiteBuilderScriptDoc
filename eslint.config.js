@@ -15,24 +15,23 @@ const customVuePlugin = {
             meta: { type: "problem" },
             create(context) {
                 return {
-                    // 1. Regla global: Ningún bloque JSDoc puede estar vacío de descripción
+                    // 1. Regla global: Exigir @description en todos los bloques JSDoc
                     Program() {
                         const sourceCode = context.sourceCode || context.getSourceCode();
                         const comments = sourceCode.getAllComments();
 
                         comments.forEach(comment => {
                             if (comment.type === "Block" && comment.value.startsWith("*")) {
-                                const descriptionPart = comment.value.split('@')[0];
-                                if (!/[a-zA-Z0-9]/.test(descriptionPart)) {
+                                if (!comment.value.includes("@description")) {
                                     context.report({
                                         loc: comment.loc,
-                                        message: "El bloque de documentación debe contener una descripción válida antes de las etiquetas."
+                                        message: "El bloque de documentación debe contener la etiqueta @description."
                                     });
                                 }
                             }
                         });
                     },
-                    // 2. Regla para parámetros de tuplas en defineEmits
+                    // 2. Regla para validar parámetros en tuplas de defineEmits
                     "CallExpression[callee.name='defineEmits'] TSPropertySignature"(node) {
                         if (node.typeAnnotation?.typeAnnotation?.type === "TSTupleType") {
                             const sourceCode = context.sourceCode || context.getSourceCode();
