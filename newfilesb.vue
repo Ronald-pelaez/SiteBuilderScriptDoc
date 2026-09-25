@@ -5,15 +5,21 @@
 
 <script setup lang="ts">
 
-
+/**
+ * User information.
+ *
+ * @description Defines the structure of a user.
+ */
 interface User {
   /**
    * Unique user identifier.
+   * @description A unique identifier for the user.
    */
   id: string;
 
   /**
    * User display name.
+   * @description The name to display for the user.
    */
   name: string;
 }
@@ -33,11 +39,13 @@ type UserStatus = 'active' | 'inactive' | 'pending';
 const props = defineProps<{
   /**
    * User information.
+   * @description The user data to display.
    */
   user: User;
 
   /**
    * Current user status.
+   * @description The status of the user.
    */
   status: UserStatus;
 }>();
@@ -51,6 +59,7 @@ const emit = defineEmits<{
   /**
    * Emitted when the user is selected.
    *
+   * @description Triggered when the user card is clicked.
    * @param userId - Identifier of the selected user.
    */
   select: [userId: string];
@@ -58,6 +67,7 @@ const emit = defineEmits<{
   /**
    * Emitted when the user status changes.
    *
+   * @description Triggered when the user status is updated.
    * @param status - New user status.
    */
   statusChange: [status: UserStatus];
