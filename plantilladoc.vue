@@ -60,7 +60,7 @@ const emit = defineEmits<{
    * Emitted when the user is selected.
    *
    * @description Triggered when the user card is clicked.
-   * @param userId - Identifier of the selected user.
+   * @param {string} userId - Identifier of the selected user.
    */
   select: [userId: string];
 
