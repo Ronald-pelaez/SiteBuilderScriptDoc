@@ -20,6 +20,7 @@ import FileUplopImage from '@/components/fields/FileUplopImage.vue'
 
 /**
  * Component Interface Props:
+ * @description Defines the properties received by the component.
  * @prop {SportCard[]} dataListSportBook - The collection of sports data currently managed.
  * @prop {string} selectTypeCategory - The active category context for the item.
  * @prop {string} [draggableHandle] - Optional CSS class selector for SortableJS interaction.
@@ -32,6 +33,7 @@ const props = defineProps<{
 
 /**
  * Component Events:
+ * @description Defines the events emitted by the component to communicate with its parent.
  * @event onDeleteItem - Triggered when the user requests to remove a specific sport item.
  * @event onUpdateUrl - Triggered when the item's data (URL or Name) has been modified.
  */
@@ -43,7 +45,8 @@ const emits = defineEmits<{
 
 /**
  * Signals the parent component to initiate the deletion process for a specific item.
- * * @param {Object} item - The sports card object to be deleted.
+ * @description Signals the parent component to initiate the deletion process for a specific item.
+ * @param {Object} item - The sports card object to be deleted.
  * @returns {void}
  */
 const clickDelete = (item: { [key: string]: any }): void => {
@@ -56,7 +59,8 @@ const clickEdit = (item: { [key: string]: any }): void => {
 
 /**
  * Signals the parent component to update an item's data structure.
- * * @param {Object} item - The sports card object with modified values.
+ * @description Signals the parent component to update an item's data structure.
+ * @param {Object} item - The sports card object with modified values.
  * @returns {void}
  */
 const onUpdateUrl = (item: { [key: string]: any }): void => {
@@ -66,7 +70,9 @@ const onUpdateUrl = (item: { [key: string]: any }): void => {
 /**
  * Handles the change event from the image uploader, updates the local object
  * reference, and notifies the parent.
- * * @param {any} valueIndex - The index position of the item (if applicable).
+ * @description Handles the change event from the image uploader, updates the local object
+ * reference, and notifies the parent.
+ * @param {any} valueIndex - The index position of the item (if applicable).
  * @param {string} keyImage - The identifier key for the image field.
  * @param {string} url - The new base64 or URL string of the uploaded image.
  * @param {Object} item - The original sport item being modified.
