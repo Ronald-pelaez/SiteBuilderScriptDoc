@@ -63,7 +63,7 @@ const emit = defineEmits<{
   select: [userId: string];
 
   /**
-   *
+   * Emitted when the user status changes.
    *
    * @description Emits the user status change event.
    * @param status - New user status.

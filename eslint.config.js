@@ -15,7 +15,6 @@ const customVuePlugin = {
             meta: { type: "problem" },
             create(context) {
                 return {
-                    // 1. Regla global: Exigir @description en todos los bloques JSDoc
                     Program() {
                         const sourceCode = context.sourceCode || context.getSourceCode();
                         const comments = sourceCode.getAllComments();
@@ -28,10 +27,19 @@ const customVuePlugin = {
                                         message: "El bloque de documentación debe contener la etiqueta @description."
                                     });
                                 }
+
+                                const contentBeforeTags = comment.value.split('@')[0];
+                                const cleanTitle = contentBeforeTags.replace(/\*/g, '').trim();
+
+                                if (!/[a-zA-Z0-9]/.test(cleanTitle)) {
+                                    context.report({
+                                        loc: comment.loc,
+                                        message: "El bloque de documentación debe incluir un título descriptivo antes de las etiquetas."
+                                    });
+                                }
                             }
                         });
                     },
-                    // 2. Regla para validar parámetros en tuplas de defineEmits
                     "CallExpression[callee.name='defineEmits'] TSPropertySignature"(node) {
                         if (node.typeAnnotation?.typeAnnotation?.type === "TSTupleType") {
                             const sourceCode = context.sourceCode || context.getSourceCode();
@@ -94,7 +102,6 @@ export default [
         rules: {
             "jsdoc/require-asterisk-prefix": "error",
 
-            // Activación de la regla estricta consolidada
             "custom-vue/strict-vue-docs": "error",
 
             "jsdoc/require-param": ["error", {
