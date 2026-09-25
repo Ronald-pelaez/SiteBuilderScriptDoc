@@ -80,6 +80,7 @@ const displayName = computed(() => {
   return props.user.name.trim();
 });
 
+
 /**
  * Selects the current user.
  *
