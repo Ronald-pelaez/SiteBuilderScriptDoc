@@ -68,7 +68,7 @@ const emit = defineEmits<{
 /**
  * Displays the formatted user name.
  *
- * Generates the user name displayed by the component.
+ *
  */
 const displayName = computed(() => {
   return props.user.name.trim();
