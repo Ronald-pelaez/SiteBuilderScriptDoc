@@ -6,16 +6,18 @@
 /**
  * User information.
  *
- * Defines the structure of a user.
+ * @description Defines the structure of a user.
  */
 interface User {
   /**
    * Unique user identifier.
+   * @description A unique identifier for the user.
    */
   id: string;
 
   /**
    * User display name.
+   * @description The name to display for the user.
    */
   name: string;
 }
@@ -23,23 +25,25 @@ interface User {
 /**
  * User status.
  *
- * Defines the available user statuses.
+ * @description Defines the available user statuses.
  */
 type UserStatus = 'active' | 'inactive' | 'pending';
 
 /**
  * User card component properties.
  *
- * Defines the data received by the component.
+ * @description Defines the data received by the component.
  */
 const props = defineProps<{
   /**
    * User information.
+   * @description The user data to display.
    */
   user: User;
 
   /**
    * Current user status.
+   * @description The status of the user.
    */
   status: UserStatus;
 }>();
@@ -47,12 +51,13 @@ const props = defineProps<{
 /**
  * Component events.
  *
- * Defines the events emitted by the component.
+ * @description Defines the events emitted by the component.
  */
 const emit = defineEmits<{
   /**
    * Emitted when the user is selected.
    *
+   * @description Emits the user selection event.
    * @param userId - Identifier of the selected user.
    */
   select: [userId: string];
@@ -60,6 +65,7 @@ const emit = defineEmits<{
   /**
    * Emitted when the user status changes.
    *
+   * @description Emits the user status change event.
    * @param status - New user status.
    */
   statusChange: [status: UserStatus];
@@ -68,7 +74,7 @@ const emit = defineEmits<{
 /**
  * Displays the formatted user name.
  *
- *
+ * @description Returns the formatted user name.
  */
 const displayName = computed(() => {
   return props.user.name.trim();
@@ -77,7 +83,7 @@ const displayName = computed(() => {
 /**
  * Selects the current user.
  *
- * Emits the user selection event.
+ * @description Emits the user selection event.
  *
  * @param userId - Identifier of the selected user.
  * @returns void.
