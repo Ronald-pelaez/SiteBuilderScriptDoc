@@ -11,6 +11,7 @@
 interface User {
   /**
    * Unique user identifier.
+   *
    * @description A unique identifier for the user.
    */
   id: string;
