@@ -5,11 +5,7 @@
 
 <script setup lang="ts">
 
-/**
- * User information.
- *
- * @description Defines the structure of a user.
- */
+
 interface User {
   /**
    * Unique user identifier.
