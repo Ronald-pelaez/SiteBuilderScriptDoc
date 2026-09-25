@@ -74,14 +74,10 @@ const onUpdateUrl = (item: { [key: string]: any }): void => {
 }
 
 /**
- * Handles the change event from the image uploader, updates the local object
- * reference, and notifies the parent.
- * @description Handles the change event from the image uploader, updates the local object
- * reference, and notifies the parent.
- *
- * @param {string} key - The identifier key for the image field.
- * @param {string} url - The new base64 or URL string of the uploaded image.
- * @param {Object} item - The original sport item being modified.
+ * Updates the image URL of a specific item and notifies the parent component.
+ * @description Updates the image URL of a specific item and notifies the parent component.
+ * @param {string} url - The new image URL to be assigned to the item.
+ * @param {Object} item - The sports card object whose URL is being updated.
  * @returns {void}
  */
 const onChangeImage = (url: string, item: { [key: string]: any }): void => {
