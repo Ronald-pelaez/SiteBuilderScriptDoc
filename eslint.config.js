@@ -61,7 +61,7 @@ const customVuePlugin = {
                                 elements.forEach(el => {
                                     if (el.type === "TSNamedTupleMember" && el.label) {
                                         const expectedName = el.label.name;
-                                        const paramRegex = new RegExp(`@param\\s+${expectedName}\\b`);
+                                        const paramRegex = new RegExp(`@param\\s+(?:\\{[^}]+\\}\\s+)?${expectedName}\\b`);
                                         if (!paramRegex.test(jsdoc.value)) {
                                             context.report({
                                                 node,
