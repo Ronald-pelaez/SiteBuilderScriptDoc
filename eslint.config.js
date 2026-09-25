@@ -9,13 +9,30 @@ const commonSettings = {
     ignoreInternal: true,
 };
 
-// 1. Regla personalizada local para analizar tuplas en defineEmits
 const customVuePlugin = {
     rules: {
-        "check-emit-tuple-params": {
+        "strict-vue-docs": {
             meta: { type: "problem" },
             create(context) {
                 return {
+                    // 1. Regla global: Ningún bloque JSDoc puede estar vacío de descripción
+                    Program() {
+                        const sourceCode = context.sourceCode || context.getSourceCode();
+                        const comments = sourceCode.getAllComments();
+
+                        comments.forEach(comment => {
+                            if (comment.type === "Block" && comment.value.startsWith("*")) {
+                                const descriptionPart = comment.value.split('@')[0];
+                                if (!/[a-zA-Z0-9]/.test(descriptionPart)) {
+                                    context.report({
+                                        loc: comment.loc,
+                                        message: "El bloque de documentación debe contener una descripción válida antes de las etiquetas."
+                                    });
+                                }
+                            }
+                        });
+                    },
+                    // 2. Regla para parámetros de tuplas en defineEmits
                     "CallExpression[callee.name='defineEmits'] TSPropertySignature"(node) {
                         if (node.typeAnnotation?.typeAnnotation?.type === "TSTupleType") {
                             const sourceCode = context.sourceCode || context.getSourceCode();
@@ -26,7 +43,6 @@ const customVuePlugin = {
                                 const elements = node.typeAnnotation.typeAnnotation.elementTypes;
                                 const hasAnyParam = jsdoc.value.includes("@param");
 
-                                // Si la tupla tiene parámetros, obliga a usar @param
                                 if (elements.length > 0 && !hasAnyParam) {
                                     context.report({
                                         node,
@@ -35,7 +51,6 @@ const customVuePlugin = {
                                     return;
                                 }
 
-                                // Valida que el nombre en el JSDoc coincida exactamente con el de la tupla
                                 elements.forEach(el => {
                                     if (el.type === "TSNamedTupleMember" && el.label) {
                                         const expectedName = el.label.name;
@@ -75,14 +90,14 @@ export default [
         plugins: {
             jsdoc,
             tsdoc: tsdocPlugin,
-            "custom-vue": customVuePlugin // 2. Registramos el plugin local
+            "custom-vue": customVuePlugin
         },
         rules: {
             "tsdoc/syntax": "error",
             "jsdoc/require-asterisk-prefix": "error",
 
-            // 3. Activamos la regla personalizada
-            "custom-vue/check-emit-tuple-params": "error",
+            // Activación de la regla estricta consolidada
+            "custom-vue/strict-vue-docs": "error",
 
             "jsdoc/require-param": ["error", {
                 contexts: [
@@ -107,7 +122,6 @@ export default [
                 ]
             }],
 
-            // Se agrega el contexto TSPropertySignature dentro de defineEmits para obligar que exista el bloque JSDoc
             "jsdoc/require-jsdoc": ["error", {
                 require: {
                     FunctionDeclaration: true,
@@ -123,23 +137,6 @@ export default [
                     "VariableDeclaration:has(CallExpression[callee.name='defineEmits'])",
                     "CallExpression[callee.name='defineEmits'] TSPropertySignature",
                     "VariableDeclaration:has(CallExpression[callee.name='computed'])"
-                ]
-            }],
-
-            "jsdoc/require-description": ["error", {
-                exemptedBy: [],
-                contexts: [
-                    "TSInterfaceDeclaration",
-                    "TSTypeAliasDeclaration",
-                    "VariableDeclaration:has(CallExpression[callee.name='defineProps'])",
-                    "VariableDeclaration:has(CallExpression[callee.name='defineEmits'])",
-                    "CallExpression[callee.name='defineEmits'] TSPropertySignature",
-                    "VariableDeclaration:has(CallExpression[callee.name='computed'])",
-                    "FunctionDeclaration",
-                    "MethodDefinition",
-                    "ClassDeclaration",
-                    "ArrowFunctionExpression",
-                    "FunctionExpression"
                 ]
             }],
 
