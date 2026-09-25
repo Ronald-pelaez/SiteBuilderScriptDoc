@@ -53,6 +53,12 @@ const clickDelete = (item: { [key: string]: any }): void => {
   emits('onDeleteItem', item)
 }
 
+/**
+ * Signals the parent component to initiate the editing process for a specific item.
+ * @description Signals the parent component to initiate the editing process for a specific item.
+ * @param {Object} item - The sports card object to be edited.
+ * @returns {void}
+ */
 const clickEdit = (item: { [key: string]: any }): void => {
   emits('onEditItem', item)
 }
@@ -60,7 +66,7 @@ const clickEdit = (item: { [key: string]: any }): void => {
 /**
  * Signals the parent component to update an item's data structure.
  * @description Signals the parent component to update an item's data structure.
- * @param {Object} item - The sports card object with modified values.
+ * @param {Object} key - The sports card object with modified values.
  * @returns {void}
  */
 const onUpdateUrl = (item: { [key: string]: any }): void => {
